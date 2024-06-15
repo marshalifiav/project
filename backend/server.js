@@ -1,18 +1,37 @@
 const express = require('express');
+const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
 app.use(cors());
 
-const news = [
-    { title: 'Berita 1', category: 'Politik', summary: 'Ringkasan Berita 1', keywords: ['politik', 'nasional'] },
-    { title: 'Berita 2', category: 'Teknologi', summary: 'Ringkasan Berita 2', keywords: ['teknologi', 'startup'] },
-    { title: 'Berita 3', category: 'Olahraga', summary: 'Ringkasan Berita 3', keywords: ['olahraga', 'sepakbola'] },
-];
-
-app.get('/news', (req, res) => {
-    res.json(news);
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'javawebmedia'
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+db.connect(err => {
+    if (err) {
+        console.error('Error connecting to the database:', err);
+        return;
+    }
+    console.log('Connected to the MySQL database.');
+});
+
+app.get('/berita', (req, res) => {
+    db.query('SELECT * FROM berita', (err, results) => {
+        if (err) {
+            console.error('Error fetching data:', err);
+            res.status(500).send('Server error');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`);
+});
