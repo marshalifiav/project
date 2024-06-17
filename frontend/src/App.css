@@ -5,12 +5,12 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff; /* pastel pink background */
+  background-color: #ffffff; 
 }
 
 h1 {
   text-align: center;
-  color: #080808; /* soft pinkish color */
+  color: #080808; 
 }
 
 input[type="text"] {
@@ -34,13 +34,13 @@ input[type="text"] {
   border-radius: 8px;
   background-color: #fafafa;
   transition: background-color 0.3s ease;
-  background-color: #ffd1dc; /* soft pink background */
+  background-color: #a7e7f3; 
 }
 
 .news-item h2 {
   margin-top: 0;
   font-size: 1.5em;
-  color: #ff69b4; /* pink color for the title */
+  color: #1a0bec; 
 }
 
 .news-item p {
