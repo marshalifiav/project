@@ -3,10 +3,11 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+const port = 5000;
 
 const db = mysql.createConnection({
     host: 'localhost',
+    port: 3306,
     user: 'root',
     password: '',
     database: 'javawebmedia'
@@ -14,24 +15,24 @@ const db = mysql.createConnection({
 
 db.connect(err => {
     if (err) {
-        console.error('Error connecting to the database:', err);
+        console.error('Database connection error:', err.stack);
         return;
     }
-    console.log('Connected to the MySQL database.');
+    console.log('Connected to database.');
 });
 
-app.get('/berita', (req, res) => {
+app.use(cors());
+
+app.get('/', (req, res) => {
     db.query('SELECT * FROM berita', (err, results) => {
         if (err) {
-            console.error('Error fetching data:', err);
-            res.status(500).send('Server error');
-            return;
+            res.status(500).send(err);
+        } else {
+            res.json(results);
         }
-        res.json(results);
     });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
 });
